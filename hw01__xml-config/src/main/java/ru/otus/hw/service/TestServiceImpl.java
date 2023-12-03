@@ -2,8 +2,6 @@ package ru.otus.hw.service;
 
 import lombok.RequiredArgsConstructor;
 import ru.otus.hw.dao.QuestionDao;
-import ru.otus.hw.domain.Answer;
-import ru.otus.hw.domain.Question;
 
 @RequiredArgsConstructor
 public class TestServiceImpl implements TestService {
