@@ -1,2 +1,4 @@
 # 2023-11-otus-spring-dubenko
-Dubenko Ilia, Otus Spring
+Курс - Spring
+Слушатель - Дубенко Илья Вячеславович
+Группа - 2023-11
