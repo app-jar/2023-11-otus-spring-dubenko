@@ -1,7 +1,10 @@
-package ru.otus.hw.service;
+package ru.otus.hw.service.test;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import ru.otus.hw.service.student.StudentService;
 
+@Service
 @RequiredArgsConstructor
 public class TestRunnerServiceImpl implements TestRunnerService {
 

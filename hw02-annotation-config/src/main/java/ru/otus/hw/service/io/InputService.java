@@ -1,9 +1,6 @@
-package ru.otus.hw.service;
+package ru.otus.hw.service.io;
 
-public interface IOService {
-    void printLine(String s);
-
-    void printFormattedLine(String s, Object ...args);
+public interface InputService {
 
     String readString();
 
