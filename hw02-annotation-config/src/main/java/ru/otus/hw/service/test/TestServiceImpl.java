@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Answer;
-import ru.otus.hw.domain.AnswerResult;
+import ru.otus.hw.domain.QuestionResult;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.domain.TestResult;
@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TestServiceImpl implements TestService {
-    private static final int MIN_ANSWER_NUMBER = 1;
+    public static final int MIN_ANSWER_NUMBER = 1;
 
     private final IOService ioService;
 
@@ -31,8 +31,8 @@ public class TestServiceImpl implements TestService {
         return new TestResult(student, answerResults);
     }
 
-    private List<AnswerResult> askQuestions(List<Question> questions) {
-        final var results = new ArrayList<AnswerResult>();
+    private List<QuestionResult> askQuestions(List<Question> questions) {
+        final var results = new ArrayList<QuestionResult>();
         for (int number = 0; number < questions.size(); number++) {
             final var questionResult = this.askQuestion(number, questions.get(number));
             results.add(questionResult);
@@ -40,7 +40,7 @@ public class TestServiceImpl implements TestService {
         return results;
     }
 
-    private AnswerResult askQuestion(int questionNumber, Question question) {
+    private QuestionResult askQuestion(int questionNumber, Question question) {
         printQuestion(questionNumber, question);
 
         final var answers = question.answers();
@@ -49,7 +49,7 @@ public class TestServiceImpl implements TestService {
         final var resultNumber = readAnswer(maxNumber);
         final var isCorrect = answers.get(resultNumber).isCorrect();
 
-        return new AnswerResult(question, resultNumber, isCorrect);
+        return new QuestionResult(question, resultNumber, isCorrect);
     }
 
     private int readAnswer(int max) {

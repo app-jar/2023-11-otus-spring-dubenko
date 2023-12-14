@@ -3,7 +3,7 @@ package ru.otus.hw.service.test;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.config.TestConfig;
-import ru.otus.hw.domain.AnswerResult;
+import ru.otus.hw.domain.QuestionResult;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.domain.TestResult;
 import ru.otus.hw.service.io.OutputService;
@@ -45,15 +45,15 @@ public class ResultServiceImpl implements ResultService {
         outputService.printLine("You have mistake at this questions:");
 
         testResult.questionResults().stream()
-                .filter(Predicate.not(AnswerResult::isCorrect))
-                .map(AnswerResult::question)
+                .filter(Predicate.not(QuestionResult::isCorrect))
+                .map(QuestionResult::question)
                 .map(Question::text)
                 .forEach(outputService::printLine);
     }
 
     private long getRightAnswersCount(TestResult testResult) {
         return testResult.questionResults().stream()
-                .filter(AnswerResult::isCorrect)
+                .filter(QuestionResult::isCorrect)
                 .count();
     }
 }
