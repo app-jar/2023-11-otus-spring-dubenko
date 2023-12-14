@@ -1,0 +1,6 @@
+# Добавить сюда своих вопросов. Эту строку надо пропустить при настройке CsvToBean (withSkipLines)
+Which of annotations is Spring "stereotype"?;@Configuration%false|@Repository%true|@RequiredArgsConstructor%false|@Value%false|@ComponentScan%false
+What scope @ComponentScan scans by default?;All classes in project%false|Only current package%false|Current and nested packages%true|Package qualifier is required%false
+Which of configuration methods is modern and prefer?;XML%false|Annotation%true|Java%false
+Authorization functionality is...;Cross-counting%true|Business layer%false|Data access layer%false|Presentation layer%false
+Spring AOP...;Can use Cglib only%false|Can use JDK proxy only%false|Can use JDK proxy and Cglib%true

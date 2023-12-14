@@ -27,3 +27,4 @@ replay_pid*
 hw01-xml-config.iml
 target
 /.idea/
+/dependency-reduces-pom.xml
