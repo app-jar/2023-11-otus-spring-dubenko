@@ -1,0 +1,4 @@
+test:
+  rightAnswersCountToPass: 3
+  fileName: questions.csv
+  showErrors: true
