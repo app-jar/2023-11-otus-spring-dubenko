@@ -2,3 +2,8 @@ test:
   rightAnswersCountToPass: 3
   fileName: questions.csv
   showErrors: true
+
+spring:
+  output:
+    ansi:
+      enabled: always
