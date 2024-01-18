@@ -61,7 +61,8 @@ class TestServiceImplTest {
 
         when(mockQuestionDao.findAll()).thenReturn(questions);
         when(mockIO.readIntForRange(anyInt(), anyInt(), anyString())).thenReturn(regularInput);
-        when(messages.get(anyString(), any())).thenReturn("");
+        when(messages.get(anyString(), any(Object[].class))).thenReturn("");
+        when(messages.get(anyString())).thenReturn("");
 
         final var testResult = service.executeTestFor(STUDENT);
 
