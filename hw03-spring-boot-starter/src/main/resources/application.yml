@@ -1,9 +1,20 @@
-test:
-  rightAnswersCountToPass: 3
-  fileName: questions.csv
-  showErrors: true
-
 spring:
+  application:
+    name: Tests
+    version: 0.0.1
   output:
     ansi:
       enabled: always
+  messages:
+    basename: messages/messages
+
+locale: ru
+
+test:
+  rightAnswersCountToPass: 3
+  file:
+    root: tests/spring
+    name: question
+    ext: csv
+  showErrors: true
+

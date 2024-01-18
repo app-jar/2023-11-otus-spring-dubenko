@@ -11,6 +11,7 @@ import ru.otus.hw.dao.CsvQuestionDao;
 import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.*;
 import ru.otus.hw.exceptions.QuestionReadException;
+import ru.otus.hw.i18n.MessageService;
 import ru.otus.hw.service.io.IOService;
 
 import java.util.ArrayList;
@@ -42,11 +43,14 @@ class TestServiceImplTest {
     @Mock
     private QuestionDao mockQuestionDao;
 
+    @Mock
+    private MessageService messages;
+
     private TestServiceImpl service;
 
     @BeforeEach
     void setUp() {
-        service = new TestServiceImpl(mockIO, mockQuestionDao);
+        service = new TestServiceImpl(mockIO, mockQuestionDao, messages);
     }
 
     @Test
@@ -57,6 +61,7 @@ class TestServiceImplTest {
 
         when(mockQuestionDao.findAll()).thenReturn(questions);
         when(mockIO.readIntForRange(anyInt(), anyInt(), anyString())).thenReturn(regularInput);
+        when(messages.get(anyString(), any())).thenReturn("");
 
         final var testResult = service.executeTestFor(STUDENT);
 

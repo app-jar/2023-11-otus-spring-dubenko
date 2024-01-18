@@ -8,6 +8,7 @@ import ru.otus.hw.domain.QuestionResult;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.domain.TestResult;
+import ru.otus.hw.i18n.MessageService;
 import ru.otus.hw.service.io.IOService;
 
 import java.util.ArrayList;
@@ -22,10 +23,12 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionDao questionDao;
 
+    private final MessageService messages;
+
     @Override
     public TestResult executeTestFor(Student student) {
         ioService.printLine("");
-        ioService.printFormattedLine("Please answer the questions below%n");
+        ioService.printLine(messages.get("input.test.answer"));
         final var questions = questionDao.findAll();
         final var answerResults = askQuestions(questions);
         return new TestResult(student, answerResults);
@@ -55,7 +58,7 @@ public class TestServiceImpl implements TestService {
     private int readAnswer(int max) {
         final var shiftedMax = max + MIN_ANSWER_NUMBER;
         final var shiftNumber = ioService.readIntForRange(MIN_ANSWER_NUMBER, shiftedMax,
-                String.format("Input error: you must input number in range %d-%d",
+                messages.get("input.test.error",
                         MIN_ANSWER_NUMBER,
                         shiftedMax
                 )
