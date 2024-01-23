@@ -8,7 +8,7 @@ import ru.otus.hw.service.student.StudentService;
 
 @Service
 @RequiredArgsConstructor
-public class TestRunnerServiceImpl implements ApplicationRunner {
+public class TestRunnerService implements ApplicationRunner {
 
     private final TestService testService;
 
