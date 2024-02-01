@@ -11,8 +11,7 @@ import ru.otus.hw.service.student.StudentHolder;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
-import static ru.otus.hw.service.test.TestConstants.QUESTION_RESULTS;
-import static ru.otus.hw.service.test.TestConstants.REGULAR_ANSWER;
+import static ru.otus.hw.service.test.TestConstants.*;
 import static ru.otus.hw.service.test.TestServiceImpl.MIN_ANSWER_NUMBER;
 
 @TestConfiguration
@@ -34,5 +33,6 @@ class TestConfig {
         final var regularInput = REGULAR_ANSWER + MIN_ANSWER_NUMBER;
         when(questionDao.findAll()).thenReturn(questions);
         when(mockIO.readIntForRange(anyInt(), anyInt(), any())).thenReturn(regularInput);
+        when(studentHolder.getStudent()).thenReturn(STUDENT);
     }
 }
