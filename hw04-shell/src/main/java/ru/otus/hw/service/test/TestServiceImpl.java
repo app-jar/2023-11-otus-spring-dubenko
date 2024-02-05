@@ -3,13 +3,9 @@ package ru.otus.hw.service.test;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.dao.QuestionDao;
-import ru.otus.hw.domain.Answer;
-import ru.otus.hw.domain.QuestionResult;
-import ru.otus.hw.domain.Question;
-import ru.otus.hw.domain.TestResult;
+import ru.otus.hw.domain.*;
 import ru.otus.hw.service.io.i18n.MessageService;
 import ru.otus.hw.service.io.IOService;
-import ru.otus.hw.service.student.StudentHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +21,14 @@ public class TestServiceImpl implements TestService {
 
     private final MessageService messages;
 
-    private final StudentHolder studentHolder;
-
     @Override
-    public TestResult executeTest() {
+    public TestResult executeTestFor(Student student) {
         ioService.printLine("");
         ioService.printLine(messages.get("input.test.answer"));
+
         final var questions = questionDao.findAll();
         final var answerResults = askQuestions(questions);
-        return new TestResult(studentHolder.getStudent(), answerResults);
+        return new TestResult(student, answerResults);
     }
 
     private List<QuestionResult> askQuestions(List<Question> questions) {
