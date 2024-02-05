@@ -11,7 +11,6 @@ public class MessageIOServiceImpl implements MessageIOService {
     private final MessageService messageService;
 
     private final IOService ioService;
-
     @Override
     public void printMessage(String key, Object params) {
         ioService.printLine(messageService.get(key, params));

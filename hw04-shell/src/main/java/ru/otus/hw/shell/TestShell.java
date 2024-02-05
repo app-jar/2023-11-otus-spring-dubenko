@@ -1,10 +1,13 @@
 package ru.otus.hw.shell;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellMethodAvailability;
 import ru.otus.hw.properties.MessageProperties;
 import ru.otus.hw.service.io.i18n.MessageIOService;
+import ru.otus.hw.service.io.i18n.MessageService;
 import ru.otus.hw.service.student.StudentHolder;
 import ru.otus.hw.service.test.TestRunnerService;
 
@@ -13,6 +16,8 @@ import ru.otus.hw.service.test.TestRunnerService;
 public class TestShell {
 
     private final StudentHolder studentHolder;
+
+    private final MessageService messages;
 
     private final TestRunnerService testService;
 
@@ -41,9 +46,15 @@ public class TestShell {
     }
 
     @ShellMethod(value = "Пройти тест", key = {"s", "test", "start"})
+    @ShellMethodAvailability("isTestAvailability")
     public String startTest() {
         testService.runTest();
         return "";
+    }
+
+    public Availability isTestAvailability() {
+        return studentHolder.isStudentDetermined() ? Availability.available()
+                : Availability.unavailable(messages.get("output.anonymous"));
     }
 
 }
