@@ -1,8 +1,6 @@
 package ru.otus.hw.shell;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.jline.utils.AttributedString;
 import org.springframework.boot.ansi.AnsiColor;
 import org.springframework.boot.ansi.AnsiOutput;
@@ -24,8 +22,6 @@ public class TestShell implements PromptProvider {
 
     private static final String DEFAULT_NAME = "Anonymous student";
 
-    @Setter
-    @Getter
     private Student student = null;
 
     private final MessageService messages;
@@ -47,20 +43,20 @@ public class TestShell implements PromptProvider {
 
     @ShellMethod(value = "Идентификация студента", key = {"i", "id", "identify", "im"})
     public String identify(String firstName, String lastName) {
-        setStudent(studentService.determineCurrentStudent(firstName, lastName));
-        return messages.get("output.name", getStudent().getFullName());
+        student = studentService.determineCurrentStudent(firstName, lastName);
+        return messages.get("output.name", student.getFullName());
     }
 
     @ShellMethod(value = "Сброс студента", key = {"logout", "out"})
     public String exit() {
-        setStudent(null);
+        student = null;
         return "";
     }
 
     @ShellMethod(value = "Пройти тест", key = {"s", "test", "start"})
     @ShellMethodAvailability("isTestAvailability")
     public String startTest() {
-        testService.runTestFor(getStudent());
+        testService.runTestFor(student);
         return "";
     }
 
@@ -78,12 +74,12 @@ public class TestShell implements PromptProvider {
     private String getStudentName() {
         final var anonymous = !isStudentDetermined();
         final var name = anonymous ?
-                DEFAULT_NAME : getStudent().getFullName();
+                DEFAULT_NAME : student.getFullName();
         final var color = anonymous ? AnsiColor.RED : AnsiColor.GREEN;
         return AnsiOutput.toString(color, name, AnsiColor.DEFAULT);
     }
 
     private boolean isStudentDetermined() {
-        return null != getStudent();
+        return null != student;
     }
 }
