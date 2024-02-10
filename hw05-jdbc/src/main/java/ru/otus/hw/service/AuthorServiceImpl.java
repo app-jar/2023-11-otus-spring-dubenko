@@ -1,9 +1,11 @@
 package ru.otus.hw.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.dao.AuthorDao;
 import ru.otus.hw.domain.Author;
+import ru.otus.hw.exception.NotExistsException;
 
 import java.util.List;
 
@@ -20,7 +22,11 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author get(Long id) {
-        return authorDao.byId(id);
+        try {
+            return authorDao.byId(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new NotExistsException(String.format("Author with id = %s doesn't exist", id));
+        }
     }
 
     @Override

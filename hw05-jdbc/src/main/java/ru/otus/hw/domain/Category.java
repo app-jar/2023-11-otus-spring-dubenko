@@ -1,19 +1,17 @@
 package ru.otus.hw.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 @Data
 @Accessors(fluent = true)
-public class Book {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Category {
 
     private Long id;
 
     private String name;
-
-    private Author author;
-
-    private List<Category> categories;
 }
