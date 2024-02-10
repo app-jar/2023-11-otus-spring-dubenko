@@ -22,6 +22,7 @@
         <module>hw02-annotation-config</module>
         <module>hw03-spring-boot-starter</module>
         <module>hw04-shell</module>
+        <module>hw05-jdbc</module>
     </modules>
 
     <properties>

@@ -1,0 +1,22 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  datasource:
+    url: jdbc:h2:mem:books
+    password: books
+    username: books
+  sql:
+    init:
+      password: books
+      username: books
+      mode: always
+      schema-locations: classpath:/db/schema.sql
+      data-locations: classpath:/db/data.sql
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
+      settings:
+        web-allow-others: true
+        trace: true
