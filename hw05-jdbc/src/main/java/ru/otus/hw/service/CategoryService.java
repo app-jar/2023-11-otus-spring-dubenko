@@ -3,7 +3,6 @@ package ru.otus.hw.service;
 import ru.otus.hw.domain.Category;
 
 import java.util.List;
-import java.util.Map;
 
 public interface CategoryService {
 
@@ -14,10 +13,6 @@ public interface CategoryService {
     Category create(String name);
 
     void delete(Long id);
-
-    List<Category> byBookId(Long bookId);
-
-    Map<Long, List<Category>> bookIdCategoryMapping();
 
     void addCategoryToBook(Long bookId, List<Long> categoryId);
 

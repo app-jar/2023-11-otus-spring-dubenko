@@ -7,6 +7,7 @@ import ru.otus.hw.dao.BookDao;
 import ru.otus.hw.domain.Author;
 import ru.otus.hw.domain.Book;
 import ru.otus.hw.domain.BookSearch;
+import ru.otus.hw.domain.Category;
 import ru.otus.hw.exception.SaveError;
 import ru.otus.hw.exception.NotExistsException;
 
@@ -18,23 +19,17 @@ public class BookServiceImpl implements BookService {
 
     private final AuthorService authorService;
 
-    private final CategoryService categoryService;
-
     private final BookDao bookDao;
 
     @Override
     public List<Book> all() {
-        final var books = bookDao.all();
-        enrichWithCategories(books);
-        return books;
+        return bookDao.all();
     }
 
     @Override
     public Book get(Long id) {
         try {
-            final var book = bookDao.byId(id);
-            enrichWithCategories(book);
-            return book;
+            return bookDao.byId(id);
         } catch (EmptyResultDataAccessException ex) {
             throw new NotExistsException(String.format("Book with id = %s doesn't exist", id));
         }
@@ -42,12 +37,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> search(String nameQuery, String authorNameQuery) {
-        final var books =  bookDao.search(new BookSearch()
+        return bookDao.search(new BookSearch()
                 .nameQuery(nameQuery)
                 .authorNameQuery(authorNameQuery)
         );
-        enrichWithCategories(books);
-        return books;
     }
 
     @Override
@@ -67,19 +60,16 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book save(Book book) {
         checkAuthor(book.author().id());
-        final var saved =  bookDao.save(book);
-        enrichWithCategories(saved);
-        return saved;
+        return bookDao.save(book);
     }
 
     @Override
     public Book create(String name, Long authorId, List<Long> categoriesIds) {
-        final var book = save(new Book()
+        return save(new Book()
                 .name(name)
                 .author(new Author(authorId, null))
+                .categories(categoriesIds.stream().map(id -> new Category().id(id)).toList())
         );
-        categoryService.addCategoryToBook(book.id(), categoriesIds);
-        return get(book.id());
     }
 
     @Override
@@ -95,14 +85,4 @@ public class BookServiceImpl implements BookService {
         }
     }
 
-    private void enrichWithCategories(List<Book> books) {
-        final var mapping = categoryService.bookIdCategoryMapping();
-        for (var book : books) {
-            book.categories(mapping.getOrDefault(book.id(), List.of()));
-        }
-    }
-
-    private void enrichWithCategories(Book book) {
-        book.categories(categoryService.byBookId(book.id()));
-    }
 }

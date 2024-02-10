@@ -9,17 +9,23 @@ import org.springframework.util.StringUtils;
 import ru.otus.hw.dao.mapper.BookMapper;
 import ru.otus.hw.domain.Book;
 import ru.otus.hw.domain.BookSearch;
+import ru.otus.hw.domain.Category;
+import ru.otus.hw.domain.CategoryLink;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
 public class JDBCBookRepository implements BookDao {
 
     private final NamedParameterJdbcOperations jdbc;
+
+    private final CategoryDao categoryDao;
 
     private final BookMapper mapper;
 
@@ -33,12 +39,15 @@ public class JDBCBookRepository implements BookDao {
                 Map.of(),
                 mapper
         );
+        if (!books.isEmpty()) {
+            enrichWithCategories(books);
+        }
         return books;
     }
 
     @Override
     public Book byId(Long id) {
-        return jdbc.queryForObject(
+        final var book = jdbc.queryForObject(
                 """
                 select a.id author_id, a.name author_name, b.id book_id, b.name book_name
                 from book b left join author a on b.author_id = a.id
@@ -47,11 +56,15 @@ public class JDBCBookRepository implements BookDao {
                 Map.of("id", id),
                 mapper
         );
+        if (null != book) {
+            enrichWithCategories(book);
+        }
+        return book;
     }
 
     @Override
     public List<Book> search(BookSearch searchDto) {
-        return jdbc.query(
+        final var books =  jdbc.query(
                 """
                 select a.id author_id, a.name author_name, b.id book_id, b.name book_name
                 from book b left join author a on b.author_id = a.id
@@ -60,6 +73,10 @@ public class JDBCBookRepository implements BookDao {
                 searchParams(searchDto),
                 mapper
         );
+        if (!books.isEmpty()) {
+            enrichWithCategories(books);
+        }
+        return books;
     }
 
     @Override
@@ -97,6 +114,9 @@ public class JDBCBookRepository implements BookDao {
         );
 
         final var id = Objects.requireNonNull(keyHolder.getKey()).longValue();
+
+        insertLinks(id, book.categories());
+
         return byId(id);
     }
 
@@ -126,5 +146,49 @@ public class JDBCBookRepository implements BookDao {
         }
 
         return where.toString();
+    }
+
+    private void enrichWithCategories(Book book) {
+        book.categories(categoryDao.byBookId(book.id()));
+    }
+
+    private void enrichWithCategories(List<Book> books) {
+        final var categoriesMapping = categoriesMapping();
+        final var linkMapping = linkMapping();
+
+        for (var book : books) {
+            enrichWithCategories(book, linkMapping, categoriesMapping);
+        }
+    }
+
+    private void enrichWithCategories(
+            Book book,
+            Map<Long, List<CategoryLink>> linksMapping,
+            Map<Long, Category> categoriesMapping
+    ) {
+        final var categoryLinks = linksMapping.get(book.id());
+        if (null == categoryLinks) {
+            return;
+        }
+        final var categories = categoryLinks.stream()
+                .map(CategoryLink::categoryId)
+                .map(categoriesMapping::get).toList();
+
+        book.categories(categories);
+    }
+
+    private Map<Long, Category> categoriesMapping() {
+        return categoryDao.allEffective().stream()
+                .collect(Collectors.toMap(Category::id, Function.identity()));
+    }
+
+    private Map<Long, List<CategoryLink>> linkMapping() {
+        return categoryDao.allLinks().stream()
+                .collect(Collectors.groupingBy(CategoryLink::bookId));
+    }
+
+    private void insertLinks(long id, List<Category> categories) {
+        final var links = categories.stream().map(category -> new CategoryLink(id, category.id())).toList();
+        categoryDao.insertLinks(links);
     }
 }
