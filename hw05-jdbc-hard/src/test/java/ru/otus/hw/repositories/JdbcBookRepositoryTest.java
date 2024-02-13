@@ -42,7 +42,7 @@ class JdbcBookRepositoryTest {
     @ParameterizedTest
     @MethodSource("getDbBooks")
     void shouldReturnCorrectBookById(Book expectedBook) {
-        var actualBook = repositoryJdbc.findById(expectedBook.getId());
+        var actualBook = repositoryJdbc.findById(expectedBook.id());
         assertThat(actualBook).isPresent()
                 .get()
                 .isEqualTo(expectedBook);
@@ -65,10 +65,10 @@ class JdbcBookRepositoryTest {
                 List.of(dbGenres.get(0), dbGenres.get(2)));
         var returnedBook = repositoryJdbc.save(expectedBook);
         assertThat(returnedBook).isNotNull()
-                .matches(book -> book.getId() > 0)
+                .matches(book -> book.id() > 0)
                 .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
 
-        assertThat(repositoryJdbc.findById(returnedBook.getId()))
+        assertThat(repositoryJdbc.findById(returnedBook.id()))
                 .isPresent()
                 .get()
                 .isEqualTo(returnedBook);
@@ -80,17 +80,17 @@ class JdbcBookRepositoryTest {
         var expectedBook = new Book(1L, "BookTitle_10500", dbAuthors.get(2),
                 List.of(dbGenres.get(4), dbGenres.get(5)));
 
-        assertThat(repositoryJdbc.findById(expectedBook.getId()))
+        assertThat(repositoryJdbc.findById(expectedBook.id()))
                 .isPresent()
                 .get()
                 .isNotEqualTo(expectedBook);
 
         var returnedBook = repositoryJdbc.save(expectedBook);
         assertThat(returnedBook).isNotNull()
-                .matches(book -> book.getId() > 0)
+                .matches(book -> book.id() > 0)
                 .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
 
-        assertThat(repositoryJdbc.findById(returnedBook.getId()))
+        assertThat(repositoryJdbc.findById(returnedBook.id()))
                 .isPresent()
                 .get()
                 .isEqualTo(returnedBook);

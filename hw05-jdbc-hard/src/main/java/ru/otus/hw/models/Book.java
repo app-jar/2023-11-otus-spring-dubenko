@@ -3,10 +3,13 @@ package ru.otus.hw.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Accessors(fluent = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book {
@@ -16,5 +19,5 @@ public class Book {
 
     private Author author;
 
-    private List<Genre> genres;
+    private List<Genre> genres = new ArrayList<>();
 }
