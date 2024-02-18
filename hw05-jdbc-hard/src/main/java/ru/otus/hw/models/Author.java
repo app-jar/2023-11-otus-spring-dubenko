@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Data
-@Accessors
+@Accessors(fluent = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class Author {
