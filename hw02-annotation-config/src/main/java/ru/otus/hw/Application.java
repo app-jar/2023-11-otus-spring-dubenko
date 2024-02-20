@@ -10,7 +10,7 @@ import ru.otus.hw.service.test.TestRunnerService;
 @ComponentScan
 public class Application {
     public static void main(String[] args) {
-        final var context = new AnnotationConfigApplicationContext(Application.class);;
+        final var context = new AnnotationConfigApplicationContext(Application.class);
         final var testRunnerService = context.getBean(TestRunnerService.class);
         testRunnerService.run();
     }
