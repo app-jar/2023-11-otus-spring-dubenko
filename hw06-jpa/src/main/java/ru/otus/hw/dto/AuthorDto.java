@@ -16,7 +16,4 @@ public class AuthorDto {
 
     private String fullName;
 
-    public AuthorDto(Author author) {
-        this(author.getId(), author.getFullName());
-    }
 }

@@ -15,7 +15,9 @@ import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
@@ -24,12 +26,13 @@ import org.hibernate.annotations.FetchMode;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Accessors(chain = true)
 @Table(name = "books")
-@NamedEntityGraph(name = "entity-graph-book-author",
-        attributeNodes = {@NamedAttributeNode("author")})
+@NamedEntityGraph(name = "entity-graph-book-author-genres",
+        attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genres")})
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book {

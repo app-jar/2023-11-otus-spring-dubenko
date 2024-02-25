@@ -23,12 +23,4 @@ public class BookDto {
 
     private List<GenreDto> genres = new ArrayList<>();
 
-    public BookDto(Book book) {
-        this(
-                book.getId(),
-                book.getTitle(),
-                new AuthorDto(book.getAuthor()),
-                book.getGenres().stream().map(GenreDto::new).toList()
-        );
-    }
 }

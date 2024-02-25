@@ -79,9 +79,8 @@ class JpaBookRepositoryTest {
                 .matches(book -> book.getId() > 0)
                 .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
 
-        assertThat(repo.findById(returnedBook.getId()))
-                .isPresent()
-                .get()
+        assertThat(em.find(Book.class, returnedBook.getId()))
+                .usingRecursiveComparison()
                 .isEqualTo(returnedBook);
     }
 
@@ -112,7 +111,7 @@ class JpaBookRepositoryTest {
     void shouldDeleteBook() {
         assertThat(repo.findById(1L)).isPresent();
         repo.deleteById(1L);
-        assertThat(repo.findById(1L)).isEmpty();
+        assertThat(em.find(Book.class, 1L)).isNull();
     }
 
 }

@@ -15,7 +15,4 @@ public class GenreDto {
 
     private String name;
 
-    public GenreDto(Genre genre) {
-        this(genre.getId(), genre.getName());
-    }
 }

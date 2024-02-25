@@ -17,7 +17,4 @@ public class CommentDto {
 
     private String text;
 
-    public CommentDto(Comment comment) {
-        this(comment.getId(), comment.getText());
-    }
 }

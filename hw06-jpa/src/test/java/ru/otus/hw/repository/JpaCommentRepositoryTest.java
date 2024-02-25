@@ -121,10 +121,10 @@ class JpaCommentRepositoryTest {
     @DisplayName("удаляет комментарий по id ")
     @Test
     void deleteComment() {
-        final var comment = repo.findById(1L);
-        assertThat(comment).isPresent();
-        repo.delete(comment.get());
-        assertThat(repo.findById(1L)).isEmpty();
+        final var comment = em.find(Comment.class,1L);
+        assertThat(comment).isNotNull();
+        repo.deleteById(comment.getId());
+        assertThat(em.find(Comment.class, comment.getId())).isNull();
     }
 
 }

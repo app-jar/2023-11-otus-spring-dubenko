@@ -19,15 +19,18 @@ public class JpaBookRepository implements BookRepository {
     @PersistenceContext
     private final EntityManager em;
 
-
     @Override
     public Optional<Book> findById(long id) {
-        return Optional.ofNullable(em.find(Book.class, id));
+        final var eg = em.getEntityGraph("entity-graph-book-author-genres");
+        final var query = em.createQuery("select distinct b from Book b where id = :id", Book.class);
+        query.setParameter("id", id);
+        query.setHint(FETCH.getKey(), eg);
+        return Optional.ofNullable(query.getSingleResult());
     }
 
     @Override
     public List<Book> findAll() {
-        final var eg = em.getEntityGraph("entity-graph-book-author");
+        final var eg = em.getEntityGraph("entity-graph-book-author-genres");
 
         final var query = em.createQuery("select distinct b from Book b", Book.class);
         query.setHint(FETCH.getKey(), eg);
@@ -45,7 +48,9 @@ public class JpaBookRepository implements BookRepository {
 
     @Override
     public void deleteById(long id) {
-        final var toRemove = findById(id);
-        toRemove.ifPresent(em::remove);
+        final var toRemove = em.find(Book.class, id);
+        if (null != toRemove) {
+            em.remove(toRemove);
+        }
     }
 }

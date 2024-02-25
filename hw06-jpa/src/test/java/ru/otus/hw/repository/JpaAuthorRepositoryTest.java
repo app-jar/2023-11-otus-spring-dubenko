@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.repositories.jpa.JpaAuthorRepository;
@@ -20,6 +21,9 @@ class JpaAuthorRepositoryTest {
     @Autowired
     private JpaAuthorRepository repo;
 
+    @Autowired
+    private TestEntityManager em;
+
     @DisplayName("загружает автора по id")
     @ParameterizedTest
     @MethodSource("ru.otus.hw.repository.TestUtils#getDbAuthors")
@@ -27,6 +31,7 @@ class JpaAuthorRepositoryTest {
         final var actual = repo.findById(expected.getId());
         assertThat(actual).isPresent()
                 .get()
+                .usingRecursiveComparison()
                 .isEqualTo(expected);
     }
 
@@ -34,7 +39,7 @@ class JpaAuthorRepositoryTest {
     @Test
     void authorsList() {
         final var actual = repo.findAll();
-        final var expected = TestUtils.getDbAuthors();
+        final var expected = em.getEntityManager().createQuery("select a from Author a", Author.class).getResultList();
 
         assertThat(actual).containsExactlyElementsOf(expected);
         actual.forEach(System.out::println);
