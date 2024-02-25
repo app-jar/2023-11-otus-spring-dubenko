@@ -1,10 +1,6 @@
 package ru.otus.hw.dto.mapper;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.dto.GenreDto;
-import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Genre;
 
 public class GenreMapper {

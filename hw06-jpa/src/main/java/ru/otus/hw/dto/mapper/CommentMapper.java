@@ -1,9 +1,7 @@
 package ru.otus.hw.dto.mapper;
 
 import ru.otus.hw.dto.CommentDto;
-import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.models.Comment;
-import ru.otus.hw.models.Genre;
 
 public class CommentMapper {
 

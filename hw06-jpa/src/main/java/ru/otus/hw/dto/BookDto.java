@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import ru.otus.hw.models.Book;
 
 import java.util.ArrayList;
 import java.util.List;

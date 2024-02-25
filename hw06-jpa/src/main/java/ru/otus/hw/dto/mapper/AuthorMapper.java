@@ -1,9 +1,5 @@
 package ru.otus.hw.dto.mapper;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.models.Author;
 
