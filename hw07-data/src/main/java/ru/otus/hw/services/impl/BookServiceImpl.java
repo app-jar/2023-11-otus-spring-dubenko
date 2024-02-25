@@ -9,6 +9,7 @@ import ru.otus.hw.dto.mapper.BookMapper;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
+import ru.otus.hw.repositories.specifications.BookSpecification;
 import ru.otus.hw.repositories.GenreRepository;
 import ru.otus.hw.services.BookService;
 
@@ -41,6 +42,19 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<BookDto> findAllByAuthorQuery(String authorQuery) {
+        return bookRepository.findAllByAuthorFullNameContains(authorQuery).stream().map(BookMapper::toDto).toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<BookDto> findAllByTitleQuery(String titleQuery) {
+        return bookRepository.findAll(BookSpecification.titleQuery(titleQuery))
+                .stream().map(BookMapper::toDto).toList();
+    }
+
+    @Override
     @Transactional
     public BookDto insert(String title, long authorId, Set<Long> genresIds) {
         return save(new Book().setId(0), title, authorId, genresIds);
@@ -65,7 +79,7 @@ public class BookServiceImpl implements BookService {
         }
 
         final var author = authorRepository.findById(authorId);
-        final var genres = genreRepository.findAllByIds(genresIds);
+        final var genres = genreRepository.findAllById(genresIds);
 
         book
                 .setTitle(title)

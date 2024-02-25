@@ -1,4 +1,4 @@
-package ru.otus.hw.repository;
+package ru.otus.hw.repository.old;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,23 +8,21 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
-import ru.otus.hw.repositories.jpa.JpaBookRepository;
+import ru.otus.hw.repositories.BookRepository;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий книг ")
-@DataJpaTest
-@Import({JpaBookRepository.class})
-class JpaBookRepositoryTest {
+@DataJpaTest(properties = "spring.sql.init.data-locations=data_old.sql")
+class DataBookRepositoryTest {
 
     @Autowired
-    private JpaBookRepository repo;
+    private BookRepository repo;
 
     @Autowired
     private TestEntityManager em;
@@ -44,7 +42,7 @@ class JpaBookRepositoryTest {
 
     @DisplayName("загружает книгу по id")
     @ParameterizedTest
-    @MethodSource("ru.otus.hw.repository.TestUtils#getDbBooks")
+    @MethodSource("ru.otus.hw.repository.old.TestUtils#getDbBooks")
     void shouldReturnCorrectBookById(Book book) {
         final var expectedBook = em.find(Book.class, book.getId());
 

@@ -1,4 +1,4 @@
-package ru.otus.hw.repository;
+package ru.otus.hw.repository.old;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,24 +8,22 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 import ru.otus.hw.models.Genre;
-import ru.otus.hw.repositories.jpa.JpaCommentRepository;
+import ru.otus.hw.repositories.CommentRepository;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий комментариев ")
-@DataJpaTest
-@Import({JpaCommentRepository.class})
-class JpaCommentRepositoryTest {
+@DataJpaTest(properties = "spring.sql.init.data-locations=data_old.sql")
+class DataCommentRepositoryTest {
 
     @Autowired
-    private JpaCommentRepository repo;
+    private CommentRepository repo;
 
     @Autowired
     private TestEntityManager em;
@@ -48,7 +46,7 @@ class JpaCommentRepositoryTest {
 
     @DisplayName("загружает комментарий по id")
     @ParameterizedTest
-    @MethodSource("ru.otus.hw.repository.TestUtils#getDbComments")
+    @MethodSource("ru.otus.hw.repository.old.TestUtils#getDbComments")
     void searchById(Comment comment) {
         final var expectedComment = em.find(Comment.class, comment.getId());
 

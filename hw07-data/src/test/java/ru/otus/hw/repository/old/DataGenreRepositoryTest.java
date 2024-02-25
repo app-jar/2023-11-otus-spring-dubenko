@@ -1,25 +1,23 @@
-package ru.otus.hw.repository;
+package ru.otus.hw.repository.old;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.otus.hw.models.Genre;
-import ru.otus.hw.repositories.jpa.JpaGenreRepository;
+import ru.otus.hw.repositories.GenreRepository;
 
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий жанров")
-@DataJpaTest
-@Import({JpaGenreRepository.class})
-class JpaGenreRepositoryTest {
+@DataJpaTest(properties = "spring.sql.init.data-locations=data_old.sql")
+class DataGenreRepositoryTest {
 
     @Autowired
-    private JpaGenreRepository repo;
+    private GenreRepository repo;
 
     @Autowired
     private TestEntityManager em;
@@ -32,7 +30,7 @@ class JpaGenreRepositoryTest {
                 .map(Genre::getId)
                 .map(id -> em.find(Genre.class, id))
                 .toList();
-        final var actual = repo.findAllByIds(expected.stream().map(Genre::getId).collect(Collectors.toSet()));
+        final var actual = repo.findAllById(expected.stream().map(Genre::getId).collect(Collectors.toSet()));
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 

@@ -11,6 +11,8 @@ public interface CommentService {
 
     List<CommentDto> findByBookId(long id);
 
+    List<CommentDto> page(int page, int limit);
+
     CommentDto insert(Long bookId, String text);
 
     CommentDto update(long id, String text);

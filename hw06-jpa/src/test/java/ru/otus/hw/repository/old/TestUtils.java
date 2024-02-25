@@ -1,4 +1,4 @@
-package ru.otus.hw.repository;
+package ru.otus.hw.repository.old;
 
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
