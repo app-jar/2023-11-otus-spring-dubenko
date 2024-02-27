@@ -26,19 +26,24 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(readOnly = true)
     public Optional<CommentDto> findById(long id) {
-        return repo.findById(id).map(CommentMapper::toDto);
+        return repo.findById(id)
+                .map(CommentMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<CommentDto> findByBookId(long id) {
-        return repo.findByBookId(id).stream().map(CommentMapper::toDto).toList();
+        return repo.findByBookId(id).stream()
+                .map(CommentMapper::toDto)
+                .toList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<CommentDto> page(int page, int limit) {
-        return repo.findAll(PageRequest.of(page, limit)).stream().map(CommentMapper::toDto).toList();
+        return repo.findAll(PageRequest.of(page, limit))
+                .map(CommentMapper::toDto)
+                .toList();
     }
 
     @Override
@@ -58,7 +63,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public CommentDto update(long id, String text) {
-        final var comment = repo.findById(id).orElseThrow(EntityNotFoundException::new);
+        final var comment = repo.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+
         comment.setText(text);
         return CommentMapper.toDto(repo.save(comment));
     }

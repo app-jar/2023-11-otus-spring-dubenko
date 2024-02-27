@@ -1,6 +1,5 @@
 package ru.otus.hw.services;
 
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.BookDto;
 
 import java.util.List;
@@ -12,10 +11,8 @@ public interface BookService {
 
     List<BookDto> findAll();
 
-    @Transactional(readOnly = true)
     List<BookDto> findAllByAuthorQuery(String authorQuery);
 
-    @Transactional(readOnly = true)
     List<BookDto> findAllByTitleQuery(String titleQuery);
 
     BookDto insert(String title, long authorId, Set<Long> genresIds);
