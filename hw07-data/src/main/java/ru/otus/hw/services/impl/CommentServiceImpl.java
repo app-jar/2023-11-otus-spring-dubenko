@@ -34,7 +34,6 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     public List<CommentDto> findByBookId(long id) {
         return repo.findByBookId(id).stream()
-                .map(CommentMapper::toDto)
                 .toList();
     }
 
@@ -42,7 +41,6 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     public List<CommentDto> page(int page, int limit) {
         return repo.findAll(PageRequest.of(page, limit))
-                .map(CommentMapper::toDto)
                 .toList();
     }
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
+import ru.otus.hw.dto.CommentDto;
 import ru.otus.hw.models.Comment;
 import ru.otus.hw.repositories.CommentRepository;
 
@@ -23,7 +24,7 @@ class CommentRepositoryTest {
     @DisplayName("работает с пагинацией")
     void paging() {
         final var actual = repo.findAll(PageRequest.of(1, 2))
-                .stream().map(Comment::getId);
+                .stream().map(CommentDto::id).toList();
 
         assertThat(actual).containsExactlyElementsOf(List.of(3L, 4L));
     }
