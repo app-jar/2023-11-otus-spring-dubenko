@@ -3,6 +3,7 @@ package ru.otus.hw.commands;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellOption;
 import ru.otus.hw.converters.BookConverter;
 import ru.otus.hw.services.BookService;
 
@@ -32,16 +33,32 @@ public class BookCommands {
                 .orElse("Book with id %d not found".formatted(id));
     }
 
+    @ShellMethod(value = "Soft searh books by author name", key = "bbaq")
+    public String findBookByAuthorQuery(String authorQuery) {
+        return bookService.findAllByAuthorQuery(authorQuery)
+                .stream()
+                .map(bookConverter::bookToString)
+                .collect(Collectors.joining("," + System.lineSeparator()));
+    }
+
+    @ShellMethod(value = "Soft searh books by title", key = "bbtq")
+    public String findBookByTitleQuery(String authorQuery) {
+        return bookService.findAllByTitleQuery(authorQuery)
+                .stream()
+                .map(bookConverter::bookToString)
+                .collect(Collectors.joining("," + System.lineSeparator()));
+    }
+
     // bins newBook 1 1,6
     @ShellMethod(value = "Insert book", key = "bins")
-    public String insertBook(String title, long authorId, Set<Long> genresIds) {
+    public String insertBook(String title, long authorId, @ShellOption(arity = 20) Set<Long> genresIds) {
         var savedBook = bookService.insert(title, authorId, genresIds);
         return bookConverter.bookToString(savedBook);
     }
 
     // bupd 4 editedBook 3 2,5
     @ShellMethod(value = "Update book", key = "bupd")
-    public String updateBook(long id, String title, long authorId, Set<Long> genresIds) {
+    public String updateBook(long id, String title, long authorId, @ShellOption(arity = 20)  Set<Long> genresIds) {
         var savedBook = bookService.update(id, title, authorId, genresIds);
         return bookConverter.bookToString(savedBook);
     }

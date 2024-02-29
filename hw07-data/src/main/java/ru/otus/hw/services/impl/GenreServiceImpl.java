@@ -19,6 +19,8 @@ public class GenreServiceImpl implements GenreService {
     @Override
     @Transactional(readOnly = true)
     public List<GenreDto> findAll() {
-        return repository.findAll().stream().map(GenreMapper::toDto).toList();
+        return repository.findAll().stream()
+                .map(GenreMapper::toDto)
+                .toList();
     }
 }

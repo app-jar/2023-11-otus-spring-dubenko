@@ -1,17 +1,28 @@
 package ru.otus.hw.repositories;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import ru.otus.hw.dto.CommentDto;
 import ru.otus.hw.models.Comment;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface CommentRepository {
+public interface CommentRepository extends CrudRepository<Comment, Long> {
 
-    List<Comment> findByBookId(long id);
 
-    Optional<Comment> findById(long id);
+    @Query("""
+        select new ru.otus.hw.dto.CommentDto(c.id, b.title, c.text)
+        from Comment c join Book b on c.book.id = b.id
+        where b.id = :id
+        """)
+    List<CommentDto> findByBookId(long id);
 
-    Comment save(Comment comment);
+    @Query("""
+        select new ru.otus.hw.dto.CommentDto(c.id, b.title, c.text)
+        from Comment c join Book b on c.book.id = b.id
+        """)
+    Slice<CommentDto> findAll(Pageable pageable);
 
-    void deleteById(Long id);
 }
