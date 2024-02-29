@@ -24,6 +24,7 @@
         <module>hw04-shell</module>
         <module>hw05-jdbc-hard</module>
         <module>hw06-jpa</module>
+        <module>hw07-data</module>
     </modules>
 
     <properties>
