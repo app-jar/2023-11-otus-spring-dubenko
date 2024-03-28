@@ -20,6 +20,5 @@ public class BookDto {
 
     private AuthorDto author;
 
-    private List<GenreDto> genres = new ArrayList<>();
-
+    private List<String> genres = new ArrayList<>();
 }

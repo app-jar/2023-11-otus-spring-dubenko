@@ -3,7 +3,6 @@ package ru.otus.hw.commands;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
 import ru.otus.hw.converters.CommentConverter;
 import ru.otus.hw.services.CommentService;
 
@@ -17,16 +16,6 @@ public class CommentCommands {
     private final CommentService commentService;
 
     private final CommentConverter commentConverter;
-
-    @ShellMethod(value = "Find all comments with paging", key = "cp")
-    public String findAllCommentsWithPaging(
-            int page,
-            @ShellOption(defaultValue = "5") int limit
-    ) {
-        return commentService.page(page, limit).stream()
-                .map(commentConverter::commnetToString)
-                .collect(Collectors.joining("," + System.lineSeparator()));
-    }
 
     @ShellMethod(value = "Find all comments by book id", key = "cbbid")
     public String findByBookId(Long id) {

@@ -1,8 +1,6 @@
 package ru.otus.hw.services.impl;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.CommentDto;
@@ -33,14 +31,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(readOnly = true)
     public List<CommentDto> findByBookId(long id) {
-        return repo.findByBookId(id).stream()
-                .toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CommentDto> page(int page, int limit) {
-        return repo.findAll(PageRequest.of(page, limit))
+        return repo.findAllByBookId(id).stream()
+                .map(CommentMapper::toDto)
                 .toList();
     }
 
@@ -48,11 +40,10 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public CommentDto insert(Long bookId, String text) {
         final var book = bookRepo.findById(bookId)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new IllegalArgumentException("Book does not exists, id = " + bookId));
 
         final var comment = new Comment()
-                .setId(0)
-                .setBook(book)
+                .setId(generateId())
                 .setText(text);
 
         return CommentMapper.toDto(repo.save(comment));
@@ -62,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public CommentDto update(long id, String text) {
         final var comment = repo.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(IllegalArgumentException::new);
 
         comment.setText(text);
         return CommentMapper.toDto(repo.save(comment));
@@ -72,5 +63,12 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public void deleteById(long id) {
         repo.deleteById(id);
+    }
+
+    private Long generateId() {
+        return repo.findAll().stream()
+                .mapToLong(Comment::getId)
+                .max()
+                .orElse(0L) + 1;
     }
 }

@@ -1,25 +1,23 @@
 package ru.otus.hw.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Getter
 @Setter
-@Entity
 @Accessors(chain = true)
-@Table(name = "authors")
-@NoArgsConstructor
-@AllArgsConstructor
+@Document
 public class Author {
 
     @Id
     private long id;
 
     private String fullName;
+
+    private List<Book> books;
 }

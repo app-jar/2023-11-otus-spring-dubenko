@@ -2,21 +2,17 @@ spring:
   output:
     ansi:
       enabled: always
-  datasource:
-    url: jdbc:h2:mem:maindb
-  sql:
-    init:
-      mode: always
-      data-locations: data.sql
-      schema-locations: schema.sql
+  data:
+    mongodb:
+      host: localhost
+      database: books
+      username: mongoadmin
+      password: mongopass
+      authentication-database: admin
 
-  jpa:
-    generate-ddl: false
-    hibernate:
-      ddl-auto: none
-
-    properties:
-      hibernate:
-        format_sql: false
-
-    show-sql: true
+mongock:
+  start-system-version: 1
+  change-logs-scan-package: ru.otus.hw.db.migration
+  migration-scan-package: ru.otus.hw.db.migration
+  runner-type: applicationrunner
+  enabled: true #Default true
