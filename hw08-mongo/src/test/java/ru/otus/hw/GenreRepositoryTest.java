@@ -1,5 +1,7 @@
 package ru.otus.hw;
 
+import de.flapdoodle.embed.mongo.transitions.MongodStarter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
@@ -13,10 +15,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataMongoTest(properties = { "spring.data.mongodb.database=test" })
+@DataMongoTest()
 @Import(GenreRepositoryImpl.class)
 public class GenreRepositoryTest {
-
     @Autowired
     MongoOperations mongoOperations;
 
