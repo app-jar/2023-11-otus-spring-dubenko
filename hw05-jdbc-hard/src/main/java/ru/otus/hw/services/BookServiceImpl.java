@@ -2,7 +2,7 @@ package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.exceptions.NotFoundException;
+import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
@@ -54,10 +54,10 @@ public class BookServiceImpl implements BookService {
         }
 
         var author = authorRepository.findById(authorId)
-                .orElseThrow(() -> new NotFoundException("Author with id %d not found".formatted(authorId)));
+                .orElseThrow(() -> new EntityNotFoundException("Author with id %d not found".formatted(authorId)));
         var genres = genreRepository.findAllByIds(genresIds);
         if (isEmpty(genres) || genresIds.size() != genres.size()) {
-            throw new NotFoundException("One or all genres with ids %s not found".formatted(genresIds));
+            throw new EntityNotFoundException("One or all genres with ids %s not found".formatted(genresIds));
         }
 
         var book = new Book(id, title, author, genres);

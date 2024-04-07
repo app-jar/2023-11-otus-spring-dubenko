@@ -3,7 +3,6 @@ package ru.otus.hw.db.migration;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.otus.hw.models.Author;
@@ -26,6 +25,7 @@ public class MongoChangeLog {
     public void seedDatabase(MongoDatabase db) {
         db.drop();
     }
+
     @ChangeSet(order = "002", systemVersion = "1", id = "fillDatabase", author = "ilia.dubenko")
     public void fillDatabase(BookRepository bookRepo, AuthorRepository authorRepo, CommentRepository commentRepo) {
         final var authors = getAuthors();
