@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.CommentDto;
 import ru.otus.hw.dto.mapper.CommentMapper;
+import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.models.Comment;
 import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.CommentRepository;
@@ -40,10 +41,10 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public CommentDto insert(Long bookId, String text) {
         final var book = bookRepo.findById(bookId)
-                .orElseThrow(() -> new IllegalArgumentException("Book does not exists, id = " + bookId));
+                .orElseThrow(() -> new NotFoundException("Book does not exists, id = " + bookId));
 
         final var comment = new Comment()
-                .setId(generateId())
+                .setId(null)
                 .setText(text);
 
         return CommentMapper.toDto(repo.save(comment));
@@ -53,7 +54,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public CommentDto update(long id, String text) {
         final var comment = repo.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new NotFoundException("Comment does not exists, id = " + id));
 
         comment.setText(text);
         return CommentMapper.toDto(repo.save(comment));
@@ -65,10 +66,10 @@ public class CommentServiceImpl implements CommentService {
         repo.deleteById(id);
     }
 
-    private Long generateId() {
-        return repo.findAll().stream()
-                .mapToLong(Comment::getId)
-                .max()
-                .orElse(0L) + 1;
+    @Override
+    @Transactional
+    public void deleteByBookId(long id) {
+        repo.deleteAllByBookId(id);
     }
+
 }

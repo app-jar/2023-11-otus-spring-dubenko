@@ -1,5 +1,19 @@
 spring:
+  shell:
+    interactive:
+      enabled: false
   data:
     mongodb:
       host: localhost
-      database: app1
+      database: books
+      username: mongoadmin
+      password: mongopass
+      authentication-database: admin
+
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 4.12.2
+mongock:
+  enabled: false

@@ -15,9 +15,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Comment {
 
     @Id
-    private long id;
+    private Long id;
 
-    @DBRef
+    @DBRef(lazy = true)
     private Book book;
 
     private String text;

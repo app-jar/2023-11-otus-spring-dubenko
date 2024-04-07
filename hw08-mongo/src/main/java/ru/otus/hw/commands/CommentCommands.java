@@ -47,4 +47,9 @@ public class CommentCommands {
     public void deleteComment(long id) {
         commentService.deleteById(id);
     }
+
+    @ShellMethod(value = "Delete all comments by book id", key = "dbbid")
+    public void deleteByBookId(Long id) {
+        commentService.deleteByBookId(id);
+    }
 }

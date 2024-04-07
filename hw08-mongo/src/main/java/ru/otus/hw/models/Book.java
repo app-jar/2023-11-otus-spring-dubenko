@@ -21,7 +21,6 @@ public class Book {
 
     private String title;
 
-    @DBRef
     private Author author;
 
     private List<String> genres = new ArrayList<>();

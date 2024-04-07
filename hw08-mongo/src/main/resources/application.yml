@@ -12,7 +12,6 @@ spring:
 
 mongock:
   start-system-version: 1
-  change-logs-scan-package: ru.otus.hw.db.migration
-  migration-scan-package: ru.otus.hw.db.migration
-  runner-type: applicationrunner
-  enabled: true #Default true
+  change-logs-scan-package:
+    - ru.otus.hw.db.migration
+  runner-type: InitializingBean

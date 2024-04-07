@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.mapper.BookMapper;
+import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
+import ru.otus.hw.repositories.GenreRepository;
 import ru.otus.hw.services.BookService;
 
 import java.util.List;
@@ -51,14 +53,14 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto insert(String title, long authorId, Set<String> genres) {
-        return save(new Book().setId(generateId()), title, authorId, genres);
+        return save(new Book().setId(null), title, authorId, genres);
     }
 
     @Override
     @Transactional
     public BookDto update(long id, String title, long authorId, Set<String> genres) {
         final var book = bookRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new NotFoundException("Book does not exists, id = " + id));
         return save(book, title, authorId, genres);
     }
 
@@ -70,13 +72,13 @@ public class BookServiceImpl implements BookService {
 
     private BookDto save(Book book, String title, long authorId, Set<String> genres) {
         if (isEmpty(genres)) {
-            throw new IllegalArgumentException("Genres ids must not be null");
+            throw new NotFoundException("Genres ids must not be null");
         }
 
         final var author = authorRepository.findById(authorId);
 
         if (author.isEmpty()) {
-            throw new IllegalArgumentException("Genres ids must not be null");
+            throw new NotFoundException("Authors ids must not be null");
         }
 
         book
@@ -84,12 +86,5 @@ public class BookServiceImpl implements BookService {
                 .setAuthor(author.get())
                 .setGenres(genres.stream().toList());
         return BookMapper.toDto(bookRepository.save(book));
-    }
-
-    private Long generateId() {
-        return bookRepository.findAll().stream()
-                .mapToLong(Book::getId)
-                .max()
-                .orElse(0L) + 1;
     }
 }

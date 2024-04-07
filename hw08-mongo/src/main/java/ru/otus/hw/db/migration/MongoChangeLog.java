@@ -2,6 +2,7 @@ package ru.otus.hw.db.migration;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import com.mongodb.client.MongoDatabase;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,19 +22,12 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class MongoChangeLog {
 
-    private final BookRepository bookRepo;
-
-    private final AuthorRepository authorRepo;
-
-    private final CommentRepository commentRepo;
-
-    @PostConstruct
-    public void startMigration() {
-        seedDatabase(bookRepo, authorRepo, commentRepo);
-    }
-
     @ChangeSet(order = "001", systemVersion = "1", id = "seedDatabase", author = "ilia.dubenko")
-    public void seedDatabase(BookRepository bookRepo, AuthorRepository authorRepo, CommentRepository commentRepo) {
+    public void seedDatabase(MongoDatabase db) {
+        db.drop();
+    }
+    @ChangeSet(order = "002", systemVersion = "1", id = "fillDatabase", author = "ilia.dubenko")
+    public void fillDatabase(BookRepository bookRepo, AuthorRepository authorRepo, CommentRepository commentRepo) {
         final var authors = getAuthors();
         final var books = getBooks();
         final var comments = getComments(books);
@@ -50,15 +44,15 @@ public class MongoChangeLog {
     private List<Comment> getComments(List<Book> books) {
         return List.of(
                 new Comment()
-                        .setId(1)
+                        .setId(1L)
                         .setBook(books.get(0))
                         .setText("Comment_1"),
                 new Comment()
-                        .setId(2)
+                        .setId(2L)
                         .setBook(books.get(0))
                         .setText("Comment_2"),
                 new Comment()
-                        .setId(3)
+                        .setId(3L)
                         .setBook(books.get(1))
                         .setText("Comment_3")
         );
