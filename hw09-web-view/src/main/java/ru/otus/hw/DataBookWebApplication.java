@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories
-public class DataBookApplication {
+public class DataBookWebApplication {
     public static void main(String[] args) {
-        SpringApplication.run(DataBookApplication.class, args);
+        SpringApplication.run(DataBookWebApplication.class, args);
     }
 }
