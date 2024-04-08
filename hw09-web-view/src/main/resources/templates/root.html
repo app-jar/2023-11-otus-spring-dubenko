@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text=”#{title}”>Бибилиотека имени котика</title>
+</head>
+<body>
+  <h1 th:text=”#{root.welcome}”>Добро пожаловать</h1>
+  <p><a
+          href="authors/all.html"
+          th:href=”@{/authors}”
+          th:text=”#{root.menu.authors}”
+  >Список авторов</a></p>
+  <p><a
+          href="genres/all.html"
+          th:href=”@{/genres}”
+          th:text=”#{root.menu.genres}”
+  >Список жанров</a></p>
+</body>
+</html>
