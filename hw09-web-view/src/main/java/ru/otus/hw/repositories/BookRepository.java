@@ -18,8 +18,5 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     Optional<Book> findById(Long id);
 
     @EntityGraph("entity-graph-book-author-genres")
-    List<Book> findAllByAuthorFullNameContains(String authorNameQuery);
-
-    @EntityGraph("entity-graph-book-author-genres")
     List<Book> findAll(Specification<Book> spec);
 }

@@ -46,14 +46,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<BookDto> findAllByAuthorQuery(String authorQuery) {
-        return bookRepository.findAllByAuthorFullNameContains(authorQuery).stream()
-                .map(BookMapper::toDto)
-                .toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public List<BookDto> findAllByTitleQuery(String titleQuery) {
         return bookRepository.findAll(BookSpecification.titleQuery(titleQuery))
                 .stream()
