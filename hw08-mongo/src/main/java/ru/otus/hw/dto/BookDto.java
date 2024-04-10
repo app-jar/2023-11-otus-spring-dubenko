@@ -14,11 +14,11 @@ import java.util.List;
 @AllArgsConstructor
 public class BookDto {
 
-    private long id;
+    private String id;
 
     private String title;
 
     private AuthorDto author;
 
-    private List<String> genres = new ArrayList<>();
+    private List<GenreDto> genres = new ArrayList<>();
 }

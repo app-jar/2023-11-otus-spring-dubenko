@@ -9,10 +9,10 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthorDto {
+public class GenreDto {
 
     private String id;
 
-    private String fullName;
+    private String name;
 
 }

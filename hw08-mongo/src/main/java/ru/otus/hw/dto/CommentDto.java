@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 public class CommentDto {
 
-    private long id;
+    private String id;
 
     private String bookTitle;
 

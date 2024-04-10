@@ -24,14 +24,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<CommentDto> findById(long id) {
+    public Optional<CommentDto> findById(String id) {
         return repo.findById(id)
                 .map(CommentMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<CommentDto> findByBookId(long id) {
+    public List<CommentDto> findByBookId(String id) {
         return repo.findAllByBookId(id).stream()
                 .map(CommentMapper::toDto)
                 .toList();
@@ -39,7 +39,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentDto insert(Long bookId, String text) {
+    public CommentDto insert(String bookId, String text) {
         final var book = bookRepo.findById(bookId)
                 .orElseThrow(() -> new NotFoundException("Book does not exists, id = " + bookId));
 
@@ -52,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentDto update(long id, String text) {
+    public CommentDto update(String id, String text) {
         final var comment = repo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Comment does not exists, id = " + id));
 
@@ -62,13 +62,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public void deleteById(long id) {
+    public void deleteById(String id) {
         repo.deleteById(id);
     }
 
     @Override
     @Transactional
-    public void deleteByBookId(long id) {
+    public void deleteByBookId(String id) {
         repo.deleteAllByBookId(id);
     }
 

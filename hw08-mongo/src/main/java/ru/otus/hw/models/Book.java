@@ -16,11 +16,11 @@ import java.util.List;
 public class Book {
 
     @Id
-    private Long id;
+    private String id;
 
     private String title;
 
     private Author author;
 
-    private List<String> genres = new ArrayList<>();
+    private List<Genre> genres = new ArrayList<>();
 }

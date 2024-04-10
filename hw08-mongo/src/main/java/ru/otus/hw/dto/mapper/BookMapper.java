@@ -11,7 +11,9 @@ public class BookMapper {
                 book.getId(),
                 book.getTitle(),
                 AuthorMapper.toDto(book.getAuthor()),
-                book.getGenres()
+                book.getGenres().stream()
+                        .map(GenreMapper::toDto)
+                        .toList()
         );
     }
 
@@ -20,6 +22,9 @@ public class BookMapper {
                 .setId(book.id())
                 .setTitle(book.title())
                 .setAuthor(AuthorMapper.toModel(book.author()))
-                .setGenres(book.genres());
+                .setGenres(book.genres().stream()
+                        .map(GenreMapper::toModel)
+                        .toList()
+                );
     }
 }
