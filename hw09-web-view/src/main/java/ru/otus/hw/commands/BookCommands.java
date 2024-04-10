@@ -28,13 +28,6 @@ public class BookCommands {
                 .orElse("Book with id %d not found".formatted(id));
     }
 
-    public String findBookByAuthorQuery(String authorQuery) {
-        return bookService.findAllByAuthorQuery(authorQuery)
-                .stream()
-                .map(bookConverter::bookToString)
-                .collect(Collectors.joining("," + System.lineSeparator()));
-    }
-
     public String findBookByTitleQuery(String authorQuery) {
         return bookService.findAllByTitleQuery(authorQuery)
                 .stream()

@@ -5,11 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @Data
 @Accessors(fluent = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthorDto {
+public class AuthorDto implements Serializable {
 
     private long id;
 

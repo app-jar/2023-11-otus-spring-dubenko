@@ -7,8 +7,6 @@ spring:
   sql:
     init:
       mode: always
-      data-locations: data.sql
-      schema-locations: schema.sql
 
   jpa:
     generate-ddl: false
@@ -22,4 +20,4 @@ spring:
     show-sql: true
 
   messages:
-    basename: messages/messages
+    encoding: UTF-8

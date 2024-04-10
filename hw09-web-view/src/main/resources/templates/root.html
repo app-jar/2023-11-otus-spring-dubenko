@@ -2,19 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:text=”#{title}”>Бибилиотека имени котика</title>
+    <title th:text="#{title}">Бибилиотека имени котика</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script type="text/javascript" th:src="@{/js/model.js}"></script>
+    <script type="text/javascript" th:src="@{/js/root.js}"></script>
 </head>
 <body>
-  <h1 th:text=”#{root.welcome}”>Добро пожаловать</h1>
+  <h1 th:text="#{root.welcome}">Добро пожаловать</h1>
   <p><a
           href="authors/all.html"
-          th:href=”@{/authors}”
-          th:text=”#{root.menu.authors}”
+          th:href="@{/books/authors}"
+          th:text="#{root.menu.authors}"
   >Список авторов</a></p>
   <p><a
           href="genres/all.html"
-          th:href=”@{/genres}”
-          th:text=”#{root.menu.genres}”
+          th:href="@{/books/genres}"
+          th:text="#{root.menu.genres}"
   >Список жанров</a></p>
+
+  <p>Поиск по автору:</p>
+  <input type="text" placeholder="author">
+  <button type="button">search</button>
+  <p>Результат:</p>
+  <table>
+      <thead><tr>
+          <td th:text="#{root.book-table.header.id}">ID</td>
+          <td th:text="#{root.book-table.header.title}">Title</td>
+          <td th:text="#{root.book-table.header.author}">Author</td>
+          <td th:text="#{root.book-table.header.genres}">Genres</td>
+      </tr></thead>
+      <tbody class="book-table_body">
+      </tbody>
+  </table>
 </body>
 </html>
