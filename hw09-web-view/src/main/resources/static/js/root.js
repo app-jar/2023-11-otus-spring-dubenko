@@ -1,11 +1,27 @@
+const service = new BookService();
+
 addEventListener('load', _ => {
+    $table = document.querySelector('.book-table_body');
+    window.table = new BookTable($table);
 
-    $bookTable = document.querySelector('.book-table_body');
+    $table.addEventListener('click', tableClickListener);
 
-    const table = new BookTable($bookTable);
+    document.querySelector('.button-search').addEventListener('click', e => {
+        const val = document.querySelector('#bookTitleSearch').value;
+        updateWithTitleQuery(val);
+    });
 
-    const service = new BookService();
 
-    service.searchByTitle("", data => table.render(data));
 
+    updateWithTitleQuery("");
 });
+
+function updateWithTitleQuery(titleQuery) {
+    service.searchByTitle(titleQuery, data => window.table.render(data));
+}
+
+function tableClickListener(e) {
+    if(e.target.classList.contains("book-control_delete")) {
+        service.deleteBook(e.target.dataset.bookId);
+    };
+}

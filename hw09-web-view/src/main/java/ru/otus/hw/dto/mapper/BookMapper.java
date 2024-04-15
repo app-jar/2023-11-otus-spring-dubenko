@@ -17,9 +17,12 @@ public class BookMapper {
 
     public static Book toModel(BookDto book) {
         return new Book()
-                .setId(book.id())
-                .setTitle(book.title())
-                .setAuthor(AuthorMapper.toModel(book.author()))
-                .setGenres(book.genres().stream().map(GenreMapper::toModel).toList());
+                .setId(book.getId())
+                .setTitle(book.getTitle())
+                .setAuthor(AuthorMapper.toModel(book.getAuthor()))
+                .setGenres(book.getGenres().stream()
+                        .map(GenreMapper::toModel)
+                        .toList()
+                );
     }
 }

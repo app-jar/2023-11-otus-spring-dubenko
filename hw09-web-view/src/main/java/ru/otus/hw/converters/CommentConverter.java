@@ -9,9 +9,9 @@ import ru.otus.hw.dto.CommentDto;
 public class CommentConverter {
     public String commnetToString(CommentDto comment) {
         return "Id: %d, book: %s, text: %s".formatted(
-                comment.id(),
-                comment.bookTitle(),
-                comment.text()
+                comment.getId(),
+                comment.getBookTitle(),
+                comment.getText()
         );
     }
 }

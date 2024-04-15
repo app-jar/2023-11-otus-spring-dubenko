@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Accessors(fluent = true)
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookDto implements Serializable {
