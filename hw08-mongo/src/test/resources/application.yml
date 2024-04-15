@@ -4,20 +4,22 @@ spring:
       enabled: false
   data:
     mongodb:
+      host: localhost
       port: 0
-#      host: localhost
-#      database: books
-#      username: mongoadmin
-#      password: mongopass
-#      authentication-database: admin
+      database: test
 
 de:
   flapdoodle:
     mongodb:
       embedded:
-        version: 4.12.2
+        version: 4.0.2
 mongock:
   start-system-version: 1
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
   change-logs-scan-package:
-    - ru.otus.hw.db.migration
-  runner-type: InitializingBean
+    - ru.otus.hw.db.test.migration
+  runner-type: ApplicationRunner
+

@@ -1,7 +1,8 @@
-package ru.otus.hw.db.migration;
+package ru.otus.hw.db.test.migration;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
 import com.mongodb.client.MongoDatabase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -9,11 +10,7 @@ import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 import ru.otus.hw.models.Genre;
-import ru.otus.hw.repositories.AuthorRepository;
-import ru.otus.hw.repositories.BookRepository;
-import ru.otus.hw.repositories.CommentRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -28,7 +25,8 @@ public class MongoChangeLog {
     }
 
     @ChangeSet(order = "002", systemVersion = "1", id = "fillDatabase", author = "ilia.dubenko")
-    public void fillDatabase(BookRepository bookRepo, AuthorRepository authorRepo, CommentRepository commentRepo) {
+    public void fillDatabase(MongockTemplate mongoTemplate) {
+        final var genres = getGenries();
         final var authors = getAuthors();
         final var books = getBooks();
         final var comments = getComments(books);
@@ -37,9 +35,10 @@ public class MongoChangeLog {
         associate(authors.get(1), books.get(1));
         associate(authors.get(2), books.get(2));
 
-        bookRepo.saveAll(books);
-        authorRepo.saveAll(authors);
-        commentRepo.saveAll(comments);
+        genres.forEach(mongoTemplate::insert);
+        books.forEach(mongoTemplate::insert);
+        authors.forEach(mongoTemplate::insert);
+        comments.forEach(mongoTemplate::insert);
     }
 
     private List<Comment> getComments(List<Book> books) {
@@ -73,14 +72,12 @@ public class MongoChangeLog {
     }
 
     private void associate(Author author, Book book) {
-        author.getBooks().add(book);
         book.setAuthor(author);
     }
 
     private Author createAuthor(Integer number) {
         return new Author()
-                .setFullName("Author_" + number)
-                .setBooks(new ArrayList<>());
+                .setFullName("Author_" + number);
     }
 
     private Book createBook(Integer number, Integer... genres) {
@@ -95,5 +92,10 @@ public class MongoChangeLog {
     private Genre createGenre(Integer number) {
         return new Genre()
                 .setName("Genre_" + number);
+    }
+    private List<Genre> getGenries() {
+        return Stream.of(1, 2, 3, 4, 5, 6)
+                .map(this::createGenre)
+                .toList();
     }
 }

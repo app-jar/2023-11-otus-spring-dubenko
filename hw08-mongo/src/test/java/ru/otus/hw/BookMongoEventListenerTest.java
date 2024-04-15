@@ -7,6 +7,9 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import ru.otus.hw.models.Comment;
+import ru.otus.hw.repositories.AuthorRepository;
+import ru.otus.hw.repositories.BookRepository;
+import ru.otus.hw.repositories.CommentRepository;
 import ru.otus.hw.repositories.handlers.BookMongoEventListener;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,11 +22,6 @@ public class BookMongoEventListenerTest {
 
     @Autowired
     BookMongoEventListener listener;
-
-    @BeforeEach
-    public void before() {
-        mongoTemplate.getDb().drop();
-    }
 
     @Test
     public void deleteCommentTest() {
