@@ -4,10 +4,16 @@ table ul {
     margin: 0;
 }
 
-td {
+tbody td {
     border: 2px solid black;
+    padding: 10px;
 }
 
 tr:hover {
-    background-color: blue;
+    background-color: rgba(114, 182, 255, 0.672);
+    cursor: pointer;
+}
+
+.book-control {
+    width: 24px;
 }

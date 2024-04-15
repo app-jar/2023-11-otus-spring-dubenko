@@ -10,6 +10,6 @@ public class GenreMapper {
     }
 
     public static Genre toModel(GenreDto genre) {
-        return new Genre().setId(genre.id()).setName(genre.name());
+        return new Genre().setId(genre.getId()).setName(genre.getName());
     }
 }
