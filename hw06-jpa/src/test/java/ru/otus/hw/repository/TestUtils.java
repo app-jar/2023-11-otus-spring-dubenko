@@ -34,7 +34,7 @@ public class TestUtils {
     }
 
     public static List<Comment> getDbComments() {
-        final var comments = new ArrayList<Comment>(IntStream.range(1, 4).boxed()
+        final var comments = new ArrayList<>(IntStream.range(1, 4).boxed()
                 .map(id -> new Comment(
                         id,
                         new Book().setId(id),
