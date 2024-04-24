@@ -8,6 +8,7 @@
     <script type="text/javascript" th:src="@{/js/root.js}"></script>
 </head>
 <body>
+<div class="content">
   <h1 th:text="#{root.welcome}">Добро пожаловать</h1>
   <p><a
           href="authors/all.html"
@@ -22,7 +23,9 @@
 
   <p>Фильтр по названию:</p>
   <input type="text" placeholder="title" id="bookTitleSearch">
-  <button type="button" class="button-search">search</button>
+  <button type="button" class="button-search"
+    th:text="#{root.book-table.search.button}"
+  >search</button>
   <p>Результат:</p>
   <table>
       <thead><tr>
@@ -34,5 +37,21 @@
       <tbody class="book-table_body">
       </tbody>
   </table>
+  <img th:src="@{icon/plus-svgrepo-com.svg}" alt="" class="book-control book-control_add">
+</div>
+
+  <div class="book-edit-modal">
+    <div class="book-edit-modal__place">
+        <p>Id: <span class="id-place"></span></p>
+        <p th:text="#{root.book-edit.title}" >Название:</p>
+        <input placeholder="title" type="text" id="book-title-edit">
+        <p th:text="#{root.book-edit.author}">Автор:</p>
+        <select id="author-select"> </select>
+        <p th:text="#{root.book-edit.genres}">Жанры:</p>
+        <div id="genre-checkboxes"> </div>
+        <button type="button" class="button-done" th:text="#{root.book-edit.done}">готово</button>
+        <button type="button" class="button-cancel" th:text="#{root.book-edit.cancel}">отмена</button>
+    </div>
+  </div>
 </body>
 </html>

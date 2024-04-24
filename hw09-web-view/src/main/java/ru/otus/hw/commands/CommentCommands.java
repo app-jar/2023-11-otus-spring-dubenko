@@ -15,18 +15,10 @@ public class CommentCommands {
     private final CommentConverter commentConverter;
 
 
-    public String findAllCommentsWithPaging(
-            int page,
-            int limit
-    ) {
-        return commentService.page(page, limit).stream()
-                .map(commentConverter::commnetToString)
-                .collect(Collectors.joining("," + System.lineSeparator()));
-    }
 
 
     public String findByBookId(Long id) {
-        return commentService.findByBookId(id).stream()
+        return commentService.findByBookId(id, 0, 0).stream()
                 .map(commentConverter::commnetToString)
                 .collect(Collectors.joining("," + System.lineSeparator()));
     }

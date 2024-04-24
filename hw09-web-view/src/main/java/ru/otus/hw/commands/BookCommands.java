@@ -35,17 +35,7 @@ public class BookCommands {
                 .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
-    // bins newBook 1 1,6
-    public String insertBook(String title, long authorId, Set<Long> genresIds) {
-        var savedBook = bookService.insert(title, authorId, genresIds);
-        return bookConverter.bookToString(savedBook);
-    }
 
-    // bupd 4 editedBook 3 2,5
-    public String updateBook(long id, String title, long authorId,   Set<Long> genresIds) {
-        var savedBook = bookService.update(id, title, authorId, genresIds);
-        return bookConverter.bookToString(savedBook);
-    }
 
     // bdel 4
     public void deleteBook(long id) {
