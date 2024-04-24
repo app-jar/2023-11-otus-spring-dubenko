@@ -13,9 +13,9 @@ public interface BookService {
 
     List<BookDto> findAllByTitleQuery(String titleQuery);
 
-    BookDto insert(String title, long authorId, Set<Long> genresIds);
+    BookDto insert(BookDto book);
 
-    BookDto update(long id, String title, long authorId, Set<Long> genresIds);
+    BookDto update(BookDto book);
 
     void deleteById(long id);
 }

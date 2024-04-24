@@ -32,15 +32,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CommentDto> findByBookId(long id) {
-        return repo.findByBookId(id).stream()
-                .toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CommentDto> page(int page, int limit) {
-        return repo.findAll(PageRequest.of(page, limit))
+    public List<CommentDto> findByBookId(long id, int page, int limit) {
+        return repo.findAll(id, PageRequest.of(page, limit)).stream()
                 .toList();
     }
 

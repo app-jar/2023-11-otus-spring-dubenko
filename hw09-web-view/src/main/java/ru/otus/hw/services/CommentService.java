@@ -9,9 +9,7 @@ public interface CommentService {
 
     Optional<CommentDto> findById(long id);
 
-    List<CommentDto> findByBookId(long id);
-
-    List<CommentDto> page(int page, int limit);
+    List<CommentDto> findByBookId(long id, int page, int limit);
 
     CommentDto insert(Long bookId, String text);
 
