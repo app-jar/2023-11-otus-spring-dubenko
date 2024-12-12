@@ -1,21 +1,21 @@
 package ru.otus.hw.services;
 
 import ru.otus.hw.dto.BookDto;
+import ru.otus.hw.dto.BookEditDto;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface BookService {
-    Optional<BookDto> findById(long id);
+    Optional<BookEditDto> findById(long id);
 
     List<BookDto> findAll();
 
     List<BookDto> findAllByTitleQuery(String titleQuery);
 
-    BookDto insert(BookDto book);
+    BookDto insert(BookEditDto book);
 
-    BookDto update(BookDto book);
+    BookDto update(BookEditDto book);
 
     void deleteById(long id);
 }

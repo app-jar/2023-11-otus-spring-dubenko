@@ -18,7 +18,7 @@ class BookTable {
             <td><ul>${book.genres.map(x => `<li>${x.name}</li>`).join("")}</ul></td>
             <td><img src="/icon/pen-svgrepo-com.svg" class="book-control book-control_edit", data-book-id="${book.id}"></img></td>
             <td><img src="/icon/delete-left-svgrepo-com.svg" class="book-control book-control_delete", data-book-id="${book.id}"></img></td>
-            <td><a href="/books/comments"><img src="/icon/comment-dots-svgrepo-com.svg" 
+            <td><a href="/books/comments?bookId=${book.id}"><img src="/icon/comment-dots-svgrepo-com.svg" 
             class="book-control", data-book-id="${book.id}"></img></a></td>
         `;
         this.$root.appendChild($row);

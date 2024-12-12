@@ -13,14 +13,14 @@ import java.util.List;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookDto implements Serializable {
+public class BookEditDto implements Serializable {
 
     private long id = 0;
 
     private String title;
 
-    private AuthorDto author;
+    private long authorId;
 
-    private List<GenreDto> genres = new ArrayList<>();
+    private List<Long> genreIds = new ArrayList<>();
 
 }

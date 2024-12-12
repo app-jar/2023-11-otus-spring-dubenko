@@ -1,50 +1,83 @@
-table ul {
-    list-style: none;
-    padding: 0;
+* {
     margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 
-tbody td {
-    border: 2px solid black;
-    padding: 10px;
+.content {
+    margin: auto;
+    width: 880px;
+    font-size: 16px;
 }
 
-tr:hover {
-    background-color: rgba(114, 182, 255, 0.672);
-    cursor: pointer;
+input {
+
+    font-size: 16px;
 }
 
-.book-control {
-    width: 24px;
+.links > span {
+    display: block;
 }
 
-.content_blured {
-    filter: blur(4px);
+h1 {
+    font-family: Arial;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
-.book-edit-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(131, 189, 250, 0.338);
-}
-
-.book-edit-modal_active {
+.controls {
+    width: 100%;
+    justify-content: space-evenly;
     display: flex;
 }
 
-.book-edit-modal__place{
-    border: 2px solid black;
-    background-color: white;
-    padding: 20px;
-    width: fit-content;
-    height: fit-content;
-    margin: auto;
+.controls > span {
+    margin-left: 20px;
 }
 
-.button-done{
-    margin-top: 20px;
+.controls {
+    margin-bottom: 20px;
+}
+
+.book-list {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.comment-list {
+
+    border-collapse: collapse;
+
+}
+
+.comment-list tr, .comment-list td {
+    padding: 10px 20px;
+}
+
+.book-list tr, .book-list td {
+    padding: 10px 20px;
+}
+
+.comment-list tr, .book-list tr {
+    border: 2px solid black;
+}
+
+.btn {
+    width: 14px;
+    height: 14px;
+}
+
+.controls-btn {
+    display: flex;
+}
+
+.controls-btn > * {
+    margin-left: 10px;
+}
+
+.book-info > * {
+    margin-bottom: 10px;
 }
