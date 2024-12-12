@@ -14,5 +14,5 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
         from Comment c join Book b on c.book.id = b.id
         where :id = 0 or b.id = :id
         """)
-    List<CommentDto> findAll(long id);
+    List<CommentDto> findAllByBookId(long id);
 }
