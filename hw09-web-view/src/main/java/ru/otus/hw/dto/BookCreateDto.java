@@ -1,5 +1,7 @@
 package ru.otus.hw.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,14 +15,17 @@ import java.util.List;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookEditDto implements Serializable {
+public class BookCreateDto implements Serializable {
 
     private long id = 0;
 
+    @NotBlank
     private String title;
 
+    @NotNull
     private long authorId;
 
+    @NotNull
     private List<Long> genreIds = new ArrayList<>();
 
 }

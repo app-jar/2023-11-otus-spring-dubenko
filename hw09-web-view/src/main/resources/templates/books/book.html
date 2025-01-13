@@ -16,7 +16,9 @@
             th:text="#{back}"
     >Назад</a></p>
 
-    <form class="book-info" method="post" style="margin-bottom: 20px" th:action="@{/books/save}" th:object="${book}">
+    <form class="book-info" method="post" style="margin-bottom: 20px"
+          th:action="@{/books/{id}(id=${book.id != 0? book.id : ''})}" th:object="${book}">
+        <input name="_method" th:value="${book.id != 0 ? 'PUT' : 'POST'}" type="hidden">
         <div class="book-info__item" th:if="${book.id != 0}">
             <label for="input_book_id" th:text="#{common.id}">ID</label>
             <input id="input_book_id" readonly th:field="*{id}" th:value="${book.id}" type="number" value="12">

@@ -1,6 +1,6 @@
 package ru.otus.hw.controllers;
 
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.otus.hw.dto.BookEditDto;
-import ru.otus.hw.exceptions.BadRequestException;
+import ru.otus.hw.dto.BookCreateDto;
+import ru.otus.hw.dto.BookUpdateDto;
+import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.exceptions.NotFoundException;
 import ru.otus.hw.services.AuthorService;
 import ru.otus.hw.services.BookService;
 import ru.otus.hw.services.CommentService;
 import ru.otus.hw.services.GenreService;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -51,7 +51,13 @@ public class BookController {
         var book = bookService.findById(id)
                 .orElseThrow(() -> new NotFoundException("Book id = %d is not found".formatted(id)));
 
-        model.addAttribute("book", book);
+        model.addAttribute("book", new BookUpdateDto(
+                book.getId(),
+                book.getTitle(),
+                book.getAuthor().getId(),
+                book.getGenres().stream()
+                        .map(GenreDto::getId).toList()
+        ));
         model.addAttribute("allAuthors", authorService.findAll());
         model.addAttribute("allGenres", genreService.findAll());
         model.addAttribute("comments", commentService.findByBookId(book.getId()));
@@ -69,31 +75,27 @@ public class BookController {
 
     @GetMapping("/books/create")
     public String createBook(Model model) {
-        var book = new BookEditDto();
         var authors = authorService.findAll();
+        var book = new BookCreateDto();
+        book.setAuthorId(authors.get(0).getId());
+        book.setTitle("");
+
         model.addAttribute("book", book);
         model.addAttribute("allAuthors", authors);
         model.addAttribute("allGenres", genreService.findAll());
 
-        book.setGenreIds(List.of());
-        book.setAuthorId(authors.get(0).getId());
-        book.setTitle("");
-
         return "books/book";
     }
 
-    @PostMapping("/books/save")
-    public String updateBook(@ModelAttribute("book") BookEditDto book) {
-        try {
-            Long bookId = null;
-            if (book.getId() == 0) {
-                bookId = bookService.insert(book).getId();
-            } else {
-                bookId = bookService.update(book).getId();
-            }
-            return "redirect:/books/" + bookId;
-        } catch (EntityNotFoundException | IllegalArgumentException ex) {
-            throw new BadRequestException(ex.getMessage());
-        }
+    @PostMapping("/books/")
+    public String createBook(@Valid @ModelAttribute("book") BookCreateDto book) {
+        var bookId = bookService.insert(book).getId();
+        return "redirect:/books/" + bookId;
+    }
+
+    @PutMapping("/books/{bookId}")
+    public String updateBook(@Valid @ModelAttribute("book") BookUpdateDto book, @PathVariable String bookId) {
+        bookService.update(book).getId();
+        return "redirect:/books/" + bookId;
     }
 }

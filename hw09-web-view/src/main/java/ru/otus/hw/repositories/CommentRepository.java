@@ -12,7 +12,7 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
     @Query("""
         select new ru.otus.hw.dto.CommentDto(c.id, b.title, c.text)
         from Comment c join Book b on c.book.id = b.id
-        where :id = 0 or b.id = :id
+            where b.id = :id
         """)
     List<CommentDto> findAllByBookId(long id);
 }
