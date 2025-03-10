@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{title}">Бибилиотека имени котика</title>
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/js/model.js}" type="text/javascript"></script>
+    <script th:src="@{/js/root.js}" type="text/javascript"></script>
+</head>
+<body>
+<div class="content">
+    <h1 th:text="#{root.welcome}">Добро пожаловать</h1>
+    <div class="controls">
+        <div class="links">
+            <span><a
+                    href="authors/all.html"
+                    th:href="@{/books/authors}"
+                    th:text="#{root.menu.authors}"
+            >Список авторов</a></span>
+            <span><a
+                    href="genres/all.html"
+                    th:href="@{/books/genres}"
+                    th:text="#{root.menu.genres}"
+            >Список жанров</a></span>
+        </div>
+        <form action="#" th:action="@{/books}" th:method="get">
+            <label for="bookTitleSearch" th:text="#{root.menu.filter}">Фильтр по названию:</label>
+            <input id="bookTitleSearch" name="title" placeholder="title" th:value="${title}" type="text">
+            <button class="button-search" th:text="#{root.book-table.search.button}"
+                    type="submit"
+            >search
+            </button>
+        </form>
+    </div>
+
+    <a href="books/book.html" th:href="@{/books/create}">
+        <button style="margin-bottom: 20px">
+            <img class="btn" src="../static/icon/plus-svgrepo-com.svg"
+                 th:alt="#{control.create}"
+                 th:src="@{/icon/plus-svgrepo-com.svg}">
+            <span th:text="#{control.create}">Create</span>
+        </button>
+    </a>
+
+    <table class="book-list">
+        <thead>
+        <tr>
+            <td th:text="#{common.id}">ID</td>
+            <td th:text="#{books.title}">Title</td>
+            <td th:text="#{books.author}">Author</td>
+            <td th:text="#{books.genres}">Genres</td>
+            <td>...</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.id}">12</td>
+            <td th:text="${book.title}">Мертвые души</td>
+            <td th:text="${book.author.fullName}">Гоголь</td>
+            <td>
+                <th:block th:each="genre : ${book.genres}">
+                    <span class="book__genre" th:text="${genre.name}">Ужасы</span><br>
+                </th:block>
+            </td>
+            <td class="controls-btn">
+                <form action="#" method="post" th:action="@{/books/{id}(id=${book.id})}">
+                    <input name="_method" type="hidden" value="DELETE">
+                    <button type="submit"><img class="btn" src="../static/icon/delete-left-svgrepo-com.svg"
+                                               th:alt="#{control.delete}"
+                                               th:src="@{/icon/delete-left-svgrepo-com.svg}"></button>
+
+                </form>
+                <a href="books/book.html" th:href="@{/books/{id}(id=${book.id})}">
+                    <button>
+                        <img class="btn" src="../static/icon/pen-svgrepo-com.svg"
+                             th:alt="#{control.edit}"
+                             th:src="@{/icon/pen-svgrepo-com.svg}">
+                    </button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
