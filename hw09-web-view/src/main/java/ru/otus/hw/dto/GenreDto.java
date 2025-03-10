@@ -5,11 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @Data
-@Accessors(fluent = true)
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class GenreDto {
+public class GenreDto implements Serializable {
     private long id;
 
     private String name;

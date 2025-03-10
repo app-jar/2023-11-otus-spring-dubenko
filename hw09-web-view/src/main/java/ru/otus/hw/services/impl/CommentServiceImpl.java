@@ -2,7 +2,6 @@ package ru.otus.hw.services.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.CommentDto;
@@ -33,14 +32,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(readOnly = true)
     public List<CommentDto> findByBookId(long id) {
-        return repo.findByBookId(id).stream()
-                .toList();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CommentDto> page(int page, int limit) {
-        return repo.findAll(PageRequest.of(page, limit))
+        return repo.findAllByBookId(id).stream()
                 .toList();
     }
 

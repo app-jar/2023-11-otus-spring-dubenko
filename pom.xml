@@ -25,7 +25,9 @@
         <module>hw05-jdbc-hard</module>
         <module>hw06-jpa</module>
         <module>hw07-data</module>
+        <module>hw08-mongo</module>
         <module>hw09-web-view</module>
+
     </modules>
 
     <properties>

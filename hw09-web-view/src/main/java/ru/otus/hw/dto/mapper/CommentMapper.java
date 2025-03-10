@@ -10,6 +10,6 @@ public class CommentMapper {
     }
 
     public static Comment toModel(CommentDto comment) {
-        return new Comment().setId(comment.id()).setText(comment.text());
+        return new Comment().setId(comment.getId()).setText(comment.getText());
     }
 }

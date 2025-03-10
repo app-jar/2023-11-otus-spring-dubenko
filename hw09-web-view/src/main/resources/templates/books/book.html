@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${book.title}">Бибилиотека имени котика</title>
+    <link href="../../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/js/model.js}" type="text/javascript"></script>
+    <script th:src="@{/js/root.js}" type="text/javascript"></script>
+</head>
+<body>
+<div class="content">
+    <h1 th:text="${book.title}">Название книги</h1>
+    <p style="margin-bottom: 20px"><a
+            href="../root.html"
+            th:href="@{/books}"
+            th:text="#{back}"
+    >Назад</a></p>
+
+    <form class="book-info" method="post" style="margin-bottom: 20px"
+          th:action="@{/books/{id}(id=${book.id != 0? book.id : ''})}" th:object="${book}">
+        <input name="_method" th:value="${book.id != 0 ? 'PUT' : 'POST'}" type="hidden">
+        <div class="book-info__item" th:if="${book.id != 0}">
+            <label for="input_book_id" th:text="#{common.id}">ID</label>
+            <input id="input_book_id" readonly th:field="*{id}" th:value="${book.id}" type="number" value="12">
+        </div>
+        <div class="book-info__item">
+            <label for="input_book_title" th:text="#{books.title}">Title</label>
+            <input id="input_book_title" th:field="*{title}" th:value="${book.title}" type="text" value="Мертвые души">
+        </div>
+        <div class="book-info__item">
+            <label for="input_book_author" th:text="#{books.author}">Author</label>
+            <select id="input_book_author" th:field="*{authorId}" th:value="${book.authorId}" value="1">
+                <option th:each="author : ${allAuthors}" th:text="${author.fullName}" th:value="${author.id}" value="1">
+                    Н. Гоголь
+                </option>
+            </select>
+        </div>
+        <div class="boo-info__item">
+            <label class="boo-info__item" th:text="#{books.genres}">Genres
+            </label>
+            <input name="genres" style="margin-left: 20px;margin-right: 5px;" th:checked="${book.genreIds.contains(genre.id)}"
+                   th:each="genre : ${allGenres}"
+                   th:field="*{genreIds}"
+                   th:text="${genre.name}"
+                   th:value="${genre.id}"
+                   type="checkbox"
+            >
+        </div>
+        <button th:text="#{control.save}" type="submit">Save</button>
+    </form>
+
+    <div class="book-info__item" th:if="${book.id != 0}">
+        <div th:text="#{books.comments}">Comments</div>
+
+        <form action="#" method="post" style="margin-bottom: 10px;" th:action="@{/comments/add}">
+            <label for="input_comment_text" th:text="#{comment.text}">Text</label>
+            <input id="input_comment_text" name="text" type="text" value="">
+            <input hidden name="bookId" th:value="${book.id}" type="text" value="">
+            <br>
+            <button style="margin-top: 6px;" type="submit">
+                <img class="btn" src="../static/icon/plus-svgrepo-com.svg"
+                     th:alt="#{control.create}"
+                     th:src="@{/icon/plus-svgrepo-com.svg}">
+                Добавить комментарий
+            </button>
+        </form>
+
+        <table class="comment-list">
+            <thead>
+            <tr>
+                <td th:text="#{common.id}">ID</td>
+                <td th:text="#{comment.text}">Text</td>
+                <td>...</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="comment : ${comments}">
+                <td th:text="${comment.id}">12</td>
+                <td th:text="${comment.text}">Комментарий</td>
+                <td>
+                    <form action="#" method="post"
+                          th:action="@{/comments/{commentId}(commentId=${comment.id}, bookId=${book.id})}">
+                        <input name="_method" type="hidden" value="DELETE">
+                        <button type="submit">
+                            <img class="btn" src="../static/icon/delete-left-svgrepo-com.svg"
+                                 th:alt="#{control.delete}"
+                                 th:src="@{/icon/delete-left-svgrepo-com.svg}">
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

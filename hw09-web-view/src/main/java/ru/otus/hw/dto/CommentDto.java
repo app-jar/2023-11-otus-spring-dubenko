@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 
 @Data
-@Accessors(fluent = true)
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentDto {

@@ -10,6 +10,6 @@ public class AuthorMapper {
     }
 
     public static Author toModel(AuthorDto author) {
-        return new Author().setId(author.id()).setFullName(author.fullName());
+        return new Author().setId(author.getId()).setFullName(author.getFullName());
     }
 }
