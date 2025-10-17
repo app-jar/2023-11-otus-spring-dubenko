@@ -38,14 +38,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentDto insert(Long bookId, String text) {
-        final var book = bookRepo.findById(bookId)
+    public CommentDto insert(CommentDto commentDto) {
+        final var book = bookRepo.findById(commentDto.getBookId())
                 .orElseThrow(EntityNotFoundException::new);
 
         final var comment = new Comment()
                 .setId(0)
                 .setBook(book)
-                .setText(text);
+                .setText(commentDto.getText());
 
         return CommentMapper.toDto(repo.save(comment));
     }
